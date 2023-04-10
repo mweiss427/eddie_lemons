@@ -3,6 +3,7 @@ import "./App.css";
 import ModelList from "./components/ModelList";
 import ImageGenerator from "./components/ImageGenerator";
 import HelloPrompt from "./components/HelloPrompt";
+import ChatComponent from "./components/ChatComponent";
 
 function App() {
   const [showModelList, setShowModelList] = useState(false);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Conversation from "./Conversation";
 
 const HelloPrompt = () => {
   const [chatInput, setChatInput] = useState("");
@@ -16,20 +17,27 @@ const HelloPrompt = () => {
           model: "gpt-3.5-turbo",
         }),
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to chat");
       }
-
+  
       const data = await response.json();
-      setChatResponse(data.choices[0].message.content);
+      if (data && data.choices && data.choices.length > 0) {
+        setChatResponse(data.choices[0].message.content);
+      } else {
+        console.error("Invalid chat response:", data);
+        setChatResponse("Error: Invalid chat response");
+      }
     } catch (error) {
       console.error("Error during chat request:", error);
+      setChatResponse("Error: Failed to chat");
     }
   };
 
   return (
     <div>
+      <Conversation />
       <label>
         Prompt:
         <input
@@ -40,7 +48,6 @@ const HelloPrompt = () => {
         />
       </label>
       <button onClick={handleChat}>Chat</button>
-      <p>{chatResponse}</p>
     </div>
   );
 };
