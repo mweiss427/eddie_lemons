@@ -13,16 +13,20 @@ const PORT = process.env.PORT || 3001;
 const API_KEY = process.env.REACT_APP_OPENAI_API_KEY
 const conversationFilePath = path.join(__dirname, "conversations.json");
 const mongoose = require('mongoose');
-const Conversation = require('./models/conversation');
+const Conversation = require('./src/models/conversation.js');
 
 
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/eddieLemons', {
+
+const connectionString = 'mongodb://localhost:27017/eddieLemons';
+
+mongoose.connect(connectionString, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
+
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -185,50 +189,50 @@ app.post("/api/chat", async (req, res) => {
   };
   conversations.messages.push(userMessage);
 
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-3.5-turbo",
+      messages: conversations.messages,
+      temperature: 0,
+      max_tokens: 2000,
+      top_p: 1,
+      frequency_penalty: 0.0,
+      presence_penalty: 0.0,
+      stop: ["\n"],
+    }),
+  });
 
-  // Chat with the model using curl equivalent (node-fetch)
+  const chatResponse = await response.json();
+
+  // Extract the generated response and format it as an assistant message
+  console.log("Chat response:", chatResponse);
+  const assistantMessage = {
+    role: "assistant",
+    content: chatResponse.choices[0].message.content.trim(),
+  };
+
+  // Add the assistant message to the conversation history and save it
+  conversations.messages.push(assistantMessage);
+  fs.writeFileSync(conversationFilePath, JSON.stringify(conversations));
+
+  // Save conversation to the database
+  const newConversation = new Conversation({ messages: conversations.messages });
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: conversations.messages,
-        temperature: 0,
-        max_tokens: 2000,
-        top_p: 1,
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0,
-        stop: ["\n"],
-      }),
-    });
+    const savedConversation = await newConversation.save();
+    console.log('Conversation saved:', savedConversation);
+  } catch (err) {
+    console.error('Error saving conversation:', err);
+  }  
 
-    const chatResponse = await response.json();
-
-    // Extract the generated response and format it as an assistant message
-    console.log("Chat response:", chatResponse);
-    const assistantMessage = {
-      role: "assistant",
-      content: chatResponse.choices[0].message.content.trim(),
-    };
-
-
-    // Add the assistant message to the conversation history and save it
-    conversations.messages.push(assistantMessage);
-    fs.writeFileSync(conversationFilePath, JSON.stringify(conversations));
-
-    // Send the assistant message back as the response
-    res.json({ messages: [assistantMessage] });
-  } catch (error) {
-    console.error("Error during chat request:", error);
-    res.status(500).json({ error: "Error during chat request" });
-  }
+  // Send the assistant message back as the response
+  res.json({ messages: [assistantMessage] });
 });
 
-// Add this to your server.js or app.js
 app.get("/api/conversation", (req, res) => {
   try {
     const rawConversations = fs.readFileSync(conversationFilePath);
@@ -240,8 +244,8 @@ app.get("/api/conversation", (req, res) => {
   }
 });
 
-
-
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;

@@ -1,5 +1,5 @@
 {
-  "name": "whatdaprompt",
+  "name": "Eddie-Lemons",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -28,7 +28,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\""
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start\"",
+    "test-api": "jest app.test.js --detectOpenHandles"
   },
   "eslintConfig": {
     "extends": [
@@ -49,6 +50,8 @@
     ]
   },
   "devDependencies": {
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3"
   }
 }
