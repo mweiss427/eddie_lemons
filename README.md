@@ -1,12 +1,14 @@
-# Getting Started with Create React App
+# Eddie Lemons - Personal AI Assistant
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Eddie Lemons - Personal AI Assistant
+
+Eddie Lemons is a personal AI assistant that can help you with a variety of tasks, from coding to setting goals. This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## How to install and run
 
 * Verify npm is installed `npm --version`
 * run `npm install`
-* add your api key to ./server.js
+* add your OpenAI API key to `./server.js`
 * run `npm run dev`
 
 ## Available Scripts
@@ -16,7 +18,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:3000](http://localhost:3000/) to view it in your browser.
 
 The page will reload when you make changes.
 You may also see any lint errors in the console.
@@ -46,39 +48,74 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## How to Play "Guess the Prompt"
+## Goal Helper
 
-### Overview
-
-"Guess the Prompt" is a fun and engaging guessing game where one player, the Prompter, comes up with a secret prompt, and the other players, the Guessers, attempt to guess the prompt based on an AI-generated image.
+The Goal Helper feature of Eddie Lemons can assist you in setting and tracking your goals.
 
 ### Instructions
 
-#### Step 1: The Prompter creates a prompt
-
-- The Prompter enters a prompt in the "Prompt" input field. A prompt can be a simple word, a phrase, or a short sentence.
-- Click the "Generate Image" button to create an AI-generated image based on the prompt.
-- The generated image will appear on the screen.
-
-#### Step 2: The Guessers make their guesses
-
-- The Guessers will take turns to enter their guesses in the "Guess" input field.
-- Click the "Submit Guess" button to submit each guess.
-- The app will calculate a score between 1 and 5000, indicating how close the guess is to the actual prompt. The higher the score, the closer the guess.
-
-#### Step 3: Continue guessing
-
-- The Guessers will continue to make guesses, trying to get the highest score possible.
-- If needed, the Prompter can choose to show or hide the prompt by clicking the "Show Prompt" or "Hide Prompt" button.
-
-#### Step 4: Game over
-
-- The game is over when the Guessers feel they have made their best guesses or when the Prompter decides to end the game.
-- The player with the highest score wins!
+1. Enter a short description of your goal in the "Enter Goal" input field.
+2. Click the "Add Goal" button to add the goal to the list.
+3. To mark a goal as completed, click the checkbox next to the goal.
+4. To remove a goal from the list, click the "Remove" button next to the goal.
 
 ### Tips
 
-- The Prompter can choose creative and unusual prompts to challenge the Guessers.
-- The Guessers should think outside the box and consider various interpretations of the generated image.
+* Be specific when setting your goal. This will make it easier to track progress and know when you've achieved it.
+* Break large goals into smaller, more manageable tasks. This can make the goal seem less daunting and help keep you motivated.
 
-Have fun playing "Guess the Prompt"!
+## About
+
+This project was created by [Your Name] as part of [a course/an independent project/etc.]. It uses [React](https://reactjs.org/) for the front-end and [Node.js](https://nodejs.org/) with [Express](https://expressjs.com/) for the back-end. The OpenAI API is used for the AI assistant functionalit
+
+Eddie Lemons is a personal AI assistant that helps you with coding by providing code suggestions and explanations. It uses the OpenAI GPT-3 API to generate responses to your coding-related queries.
+
+## How to install and run
+
+* Verify npm is installed `npm --version`
+* run `npm install`
+* add your OpenAI API key to `./server.js`
+* run `npm run dev`
+
+## Features
+
+### Coding Helper
+
+The "Coding Helper" feature allows you to enter a prompt and a code snippet and get an AI-generated response containing suggestions and explanations for your code. Simply enter your prompt and code snippet in the provided fields, and Eddie Lemons will generate a response based on your inputs.
+
+### Guess the Prompt
+
+The "Guess the Prompt" game is a fun and engaging guessing game where one player comes up with a secret prompt, and the other players attempt to guess the prompt based on an AI-generated image. Eddie Lemons generates the image based on the prompt provided, and the players take turns guessing the prompt based on the generated image.
+
+## How to use
+
+### Coding Helper
+
+1. Navigate to the "Coding Helper" page.
+2. Enter your prompt and code snippet in the provided fields.
+3. Click the "Get Response" button.
+4. Eddie Lemons will generate a response based on your inputs.
+
+### Guess the Prompt
+
+1. Navigate to the "Guess the Prompt" page.
+2. The "Prompter" enters a prompt in the "Prompt" input field.
+3. Click the "Generate Image" button to create an AI-generated image based on the prompt.
+4. The generated image will appear on the screen.
+5. The "Guessers" will take turns to enter their guesses in the "Guess" input field.
+6. Click the "Submit Guess" button to submit each guess.
+7. Eddie Lemons will calculate a score between 1 and 5000, indicating how close the guess is to the actual prompt. The higher the score, the closer the guess.
+8. The Guessers will continue to make guesses, trying to get the highest score possible.
+9. If needed, the Prompter can choose to show or hide the prompt by clicking the "Show Prompt" or "Hide Prompt" button.
+
+## Technologies used
+
+* React
+* Node.js
+* Express.js
+* MongoDB
+* OpenAI GPT-3 API
+
+## Acknowledgements
+
+This project was created as part of a coding challenge. The AI-generated images used in the "Guess the Prompt" game were generated using the DALL-E API by OpenAI.
