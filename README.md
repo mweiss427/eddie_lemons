@@ -8,7 +8,7 @@ Eddie Lemons is a personal AI assistant that can help you with a variety of task
 
 * Verify npm is installed `npm --version`
 * run `npm install`
-* add your OpenAI API key to `./server.js`
+* add your OpenAI API key to `./.env like REACT_APP_OPENAI_API_KEY=sk-{your token}`
 * run `npm run dev`
 
 ## Available Scripts
