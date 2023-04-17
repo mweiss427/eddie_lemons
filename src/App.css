@@ -49,3 +49,68 @@ button[type="submit"] {
 .prompt-container button {
   margin-top: 0.5em;
 }
+
+.App-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #282c34;
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.App-sidebar-tab {
+  background-color: #282c34;
+  color: white;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 18px;
+  border: none;
+  text-align: left;
+  outline: none;
+  width: 100%;
+  transition: background-color 0.2s;
+}
+
+.App-sidebar-tab:hover {
+  background-color: #333842;
+}
+
+.App-sidebar-tab.active {
+  background-color: #333842;
+}
+
+.App-main {
+  padding-left: 210px;
+}
+
+.App-subtabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px 0;
+}
+
+.App-subtab {
+  background-color: #282c34;
+  color: white;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  text-align: center;
+  outline: none;
+  margin-right: 10px;
+  transition: background-color 0.2s;
+}
+
+.App-subtab:hover {
+  background-color: #333842;
+}
+
+.App-subtab.active {
+  background-color: #333842;
+}

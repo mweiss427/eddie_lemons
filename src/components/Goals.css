@@ -1,0 +1,51 @@
+.goal-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .goal-details-header {
+    grid-column: 1 / 4;
+    grid-row: 1;
+    text-align: center;
+  }
+  
+  .goal-details-status {
+    grid-column: 1 / 4;
+    grid-row: 2;
+    text-align: center;
+  }
+  
+  .goal-details-metrics {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  
+  .goal-details-plans {
+    grid-column: 3;
+    grid-row: 3;
+  }
+  
+  .goal-details-close {
+    grid-column: 1 / 4;
+    grid-row: 4;
+    margin-top: 20px;
+  }
+  
+  .Goals-list {
+    margin-top: 20px;
+  }
+  
+  .goal-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }  

@@ -1,0 +1,75 @@
+.CodingHelper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .CodingHelper-header {
+    margin-top: 20px;
+  }
+  
+  .CodingHelper-dialog {
+    width: 80%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    overflow-y: auto;
+    max-height: 300px;
+  }
+  
+  .CodingHelper-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .CodingHelper-message.user {
+    background-color: #f1f1f1;
+  }
+  
+  .CodingHelper-message.assistant {
+    background-color: #e1f7d5;
+  }
+  
+  .CodingHelper-prompt,
+  .CodingHelper-code {
+    width: 80%;
+    height: 100px;
+    margin: 10px;
+    padding: 10px;
+    resize: vertical;
+  }
+  
+  .CodingHelper-submit {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .CodingHelper-submit:hover {
+    background-color: #45a049;
+  }
+  
+  .CodingHelper-aiCodeSuggestions {
+    width: 80%;
+    height: 100px;
+    margin: 10px;
+    padding: 10px;
+    resize: vertical;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+  }
+  
+  .ResponseDump {
+    width: 80%;
+    height: 200px;
+    margin: 10px;
+    padding: 10px;
+    resize: vertical;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+  }
+  

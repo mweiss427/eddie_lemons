@@ -4,7 +4,7 @@ const cors = require("cors");
 const stringSimilarity = require("string-similarity");
 const fs = require("fs");
 const path = require("path");
-
+const { ObjectId } = require("mongodb");
 require('dotenv').config();
 
 
@@ -14,6 +14,8 @@ const API_KEY = process.env.REACT_APP_OPENAI_API_KEY
 const conversationFilePath = path.join(__dirname, "conversations.json");
 const mongoose = require('mongoose');
 const Conversation = require('./src/models/conversation.js');
+const Goal = require("./src/models/goal.js");
+
 
 
 app.use(cors());
@@ -27,6 +29,9 @@ mongoose.connect(connectionString, {
   useUnifiedTopology: true,
 });
 
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -178,11 +183,9 @@ app.post("/api/prompt", async (req, res) => {
 });
 
 app.post("/api/chat", async (req, res) => {
-  // Read conversation history from the file
   const rawConversations = fs.readFileSync(conversationFilePath);
   const conversations = JSON.parse(rawConversations);
 
-  // Add new message from the user
   const userMessage = {
     role: "user",
     content: req.body.messages[0].content,
@@ -244,8 +247,139 @@ app.get("/api/conversation", (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.post("/api/coding-helper", async (req, res) => {
+  const { prompt, code } = req.body;
+  const currentDate = new Date();
+  const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+
+  const codingEntry = {
+    date: dateString,
+    prompt,
+    code,
+  };
+
+  try {
+    const savedCodingEntry = await new CodingHelperEntry(codingEntry).save();
+    console.log("Coding helper entry saved:", savedCodingEntry);
+
+    console.log("Prompt:", prompt);
+    const openaiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "You are an AI React expert code assistant with a security mindset that helps users with their code projects, providing suggestions and improvements. Your response should be in json format and have a response: and codeResponse: variable." },
+          { role: "user", content: `I have this code:\n${code}\nPlease analyze the code and provide specific code suggestions or improvements, with a focus on security best practices and correcting any errors. Please provide a secure and well-structured React code example that demonstrates authentication and authorization using the latest best practices, including the use of React hooks, React context, and third-party libraries like react-query for data fetching. Additionally, please include relevant explanations and comments to help understand the rationale behind each step or decision made in the code.` },
+        ],                   
+        temperature: 0,
+        max_tokens: 3000,
+        top_p: 1,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
+        stop: ["\n"],
+      }),
+    });
+    
+
+    if (!openaiResponse.ok) {
+      console.error("Response received from OpenAI API:", openaiResponse);
+      const errorResponse = await openaiResponse.json();
+      console.error("Error response JSON:", errorResponse);
+      res.status(500).json({ error: "Failed to generate response" });
+    } else {
+      const chatResponse = await openaiResponse.json();
+      console.log("Chat response:", chatResponse);
+      const assistantMessage = {
+        role: "assistant",
+        content: chatResponse.choices[0].message.content.trim(),
+      };
+
+      // Split the content into explanation and code
+      const [explanation, code] = assistantMessage.content.split("```");
+      const assistantCode = code ? code.trim() : '';
+
+      res.json({ success: true, assistantResponse: explanation, assistantCode, chatResponse });
+    }
+  } catch (err) {
+    console.error("Error saving coding helper entry:", err);
+    res.status(500).json({ success: false, message: "Error saving coding helper entry" });
+  }
 });
+
+// CREATE Goal
+app.post("/api/goals", async (req, res) => {
+  try {
+    const goal = new Goal(req.body);
+    const savedGoal = await goal.save();
+    res.status(201).json(savedGoal);
+  } catch (error) {
+    res.status(400).json({ message: "Failed to create goal", error });
+  }
+});
+
+// READ all Goals
+app.get("/api/goals", async (req, res) => {
+  try {
+    const goals = await Goal.find({});
+    res.status(200).json(goals);
+  } catch (error) {
+    res.status(400).json({ message: "Failed to fetch goals", error });
+  }
+});
+
+// READ Goal by ID
+app.get("/api/goals/:id", async (req, res) => {
+  try {
+    const goal = await Goal.findById(req.params.id);
+    if (goal) {
+      res.status(200).json(goal);
+    } else {
+      res.status(404).json({ message: "Goal not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Failed to fetch goal", error });
+  }
+});
+
+// UPDATE Goal
+app.put("/api/goals/:id", async (req, res) => {
+  try {
+    const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (updatedGoal) {
+      res.status(200).json(updatedGoal);
+    } else {
+      res.status(404).json({ message: "Goal not found" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Failed to update goal", error });
+  }
+});
+
+// DELETE Goal
+app.delete("/api/goals/:id", async (req, res) => {
+  try {
+    const deletedGoal = await Goal.findByIdAndDelete(req.params.id);
+    if (deletedGoal) {
+      res.status(200).json({ message: "Goal deleted", deletedGoal });
+    } else {
+      res.status(404).json({ message: "Goal not found" });
+    }
+  }
+  catch (error) {
+    res.status(400).json({ message: "Failed to delete goal", error });
+  }
+});
+
+const codingHelperEntrySchema = new mongoose.Schema({
+  date: String,
+  prompt: String,
+  code: String,
+});
+
+const CodingHelperEntry = mongoose.model("CodingHelperEntry", codingHelperEntrySchema);
 
 module.exports = app;
