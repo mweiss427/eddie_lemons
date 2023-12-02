@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/eddie_lemons/static/css/main.0946a77f.css",
+    "main.js": "/eddie_lemons/static/js/main.44db05b2.js",
+    "static/js/787.9133902d.chunk.js": "/eddie_lemons/static/js/787.9133902d.chunk.js",
+    "index.html": "/eddie_lemons/index.html",
+    "main.0946a77f.css.map": "/eddie_lemons/static/css/main.0946a77f.css.map",
+    "main.44db05b2.js.map": "/eddie_lemons/static/js/main.44db05b2.js.map",
+    "787.9133902d.chunk.js.map": "/eddie_lemons/static/js/787.9133902d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0946a77f.css",
+    "static/js/main.44db05b2.js"
+  ]
+}
