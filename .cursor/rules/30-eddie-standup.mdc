@@ -1,0 +1,14 @@
+---
+description: Session-opening greetings trigger the good-morning rundown skill
+alwaysApply: true
+---
+
+# Session Openings
+
+When the operator opens with a greeting or a catch-up request — "good morning",
+"morning", "gm", "where were we", "catch me up", "status", "standup" — read and
+follow `.cursor/skills/good-morning/SKILL.md` before replying. It produces the
+rundown and checklist the greeting is asking for.
+
+A greeting is a request for a briefing, not authorization to start work. Report,
+then wait for the operator to choose a task.
