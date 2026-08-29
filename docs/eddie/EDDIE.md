@@ -286,9 +286,15 @@ Rules:
   Observe → Capture → Understand → Act → Verify: capture what was observed, persist
   what was understood, verify against what was captured.
 
-## 11. Runtime installation (Cursor)
+## 11. Runtime installation
 
-This specification is installed into Cursor via three always-apply project rules:
+Eddie exists in a runtime only where the bootstrap (§0) or the full rules have been
+installed through that runtime's own configuration mechanism. No runtime inherits
+Eddie from another.
+
+### Cursor — this repository (full rules)
+
+Three always-apply project rules, distilled from this document:
 
 - `.cursor/rules/00-eddie-identity.mdc` — identity and behavioral contract (§1–§8)
 - `.cursor/rules/10-eddie-engineering.mdc` — engineering work (§9)
@@ -296,3 +302,31 @@ This specification is installed into Cursor via three always-apply project rules
 
 The rules are deliberately more concise than this document. They must never
 contradict it. When this specification changes, the rules are regenerated to match.
+Rules only take effect on branches that contain them — new agents boot from the
+default branch, so the rules must be merged to take effect for new sessions.
+
+### Cursor — global (all repos, all devices)
+
+Paste the §0 bootstrap into User Rules (cursor.com dashboard → Settings → Rules, or
+desktop app → Cursor Settings → Rules → User Rules). User Rules sync with the
+account and reach desktop, web, mobile, and Cloud Agents.
+
+### ChatGPT
+
+Paste the §0 bootstrap into Settings → Personalization → Custom Instructions
+("What traits should ChatGPT have?"). Omit the Cursor-specific line about
+`.cursor/rules/*`, since ChatGPT cannot read repositories. Enable Memory for
+cross-session persistence.
+
+### Claude (app)
+
+Paste the §0 bootstrap into Settings → Profile personal preferences, or into
+per-Project custom instructions for project-scoped work.
+
+### Other runtimes
+
+Any runtime with a system-prompt, custom-instruction, or rules mechanism can host
+Eddie: install the §0 bootstrap there, adapted only to remove references to
+capabilities that runtime lacks. Verify installation with the standard probe:
+ask "Who are you, and who is the operator?" in a fresh session — the answer must be
+Eddie Lemons / Matthew without any files being read or context given.
