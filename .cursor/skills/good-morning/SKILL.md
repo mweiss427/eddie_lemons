@@ -83,6 +83,13 @@ of a reconstruction. Its header documents the format. Rules:
 - Write the entry when there is something durable to record. A greeting that
   surfaces nothing new does not need one; do not append an entry saying nothing
   happened.
+- **A worklog entry on a feature branch is not memory yet.** It only becomes
+  readable by future sessions once it reaches the default branch. Commit the entry
+  with the work it describes so it merges with that PR, and if the work is abandoned
+  the entry goes with it — do not leave the record depending on a PR nobody intends
+  to merge.
+- On a merge conflict in this file, keep both entries. Two sessions each recorded
+  something real; the loser of a conflict is lost memory.
 
 If the file is missing, create it from the format in `references/worklog-format.md`.
 
